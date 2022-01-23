@@ -102,13 +102,13 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END, _______,
     _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGUP, KC_PGDN, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_INSERT, KC_DELETE, _______,
-    _______, _______, _______,      _______,             _______,  _______,  _______, _______
+    _______, _______, _______,      _______,              _______, _______, _______, _______
   ),
   /* Layer _FN_LAYER
   * ,-----------------------------------------------------------------------------------------.
   * |Sleep| F1  | F2  | F3  | F4  | F5  | F6  | F7  | F8  | F9  | F10 | F11 | F12 |    Del    |
   * |-----------------------------------------------------------------------------------------+
-  * | MsBut3 |     | MsU |MsWhl|MsWUp|     |L_Frq|L_Int| L_On|L_Off|  PS | Home| End |Keypad_L|
+  * | MsBut3 |     | MsU |MsWhl|MsWUp|     |L_Int|L_Frq| L_On|L_Off|  PS | Home| End |Keypad_L|
   * |-----------------------------------------------------------------------------------------+
   * | CapsLock| MsL | MsD | MsR |MsWDw|     | Left| Down| Up  |Right| PgU | PgD | Base_Layer  |
   * |-----------------------------------------------------------------------------------------+
@@ -118,11 +118,11 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * \-----------------------------------------------------------------------------------------/
   */
   [_FN_LAYER] = KEYMAP( /* Base */
-    KC_SYSTEM_SLEEP, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,   KC_DELETE,
-    KC_MS_BTN3, XXXXXXX, KC_MS_UP, KC_MS_BTN2, KC_MS_WH_UP, XXXXXXX, KC_AP_LED_SPEED, KC_AP_LED_NEXT_INTENSITY, KC_AP_LED_ON, KC_AP_LED_OFF, KC_PSCR, KC_HOME, KC_END, DF(_KEYPAD_LAYER),
+    KC_SYSTEM_SLEEP, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DELETE,
+    KC_MS_BTN3, XXXXXXX, KC_MS_UP, KC_MS_BTN2, KC_MS_WH_UP, XXXXXXX, KC_AP_LED_NEXT_INTENSITY, KC_AP_LED_SPEED, KC_AP_LED_ON, KC_AP_LED_OFF, KC_PSCR, KC_HOME, KC_END, DF(_KEYPAD_LAYER),
     KC_CAPS, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, KC_MS_WH_DOWN, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGUP, KC_PGDN, DF(_BASE_LAYER),
     KC_MS_BTN1, KC_AP2_BT_UNPAIR, KC_AP2_BT1, KC_AP2_BT2, KC_AP2_BT3, KC_AP2_USB, KC_VOLU, KC_VOLD, KC_MUTE, KC_INSERT, KC_DELETE, KC_RSFT,
-    KC_LCTL, _______, KC_LALT,      KC_MS_ACCEL1,             DYN_REC_START1,  _______, DF(_FN_LAYER), DYN_MACRO_PLAY1
+    KC_LCTL, _______, KC_LALT,      KC_MS_ACCEL1,             DYN_REC_START1, _______, DF(_FN_LAYER), DYN_MACRO_PLAY1
   ),
 };
 
@@ -136,12 +136,43 @@ void matrix_init_user(void) {
 void matrix_scan_user(void) {
 }
 
-layer_state_t layer_state_set_user(layer_state_t layer) {
-    return layer;
+// Code to run after initializing the keyboard
+void keyboard_post_init_user(void) {
+    // Here are two common functions that you can use. For more LED functions, refer to the file "qmk_ap2_led.h"
+    annepro2LedEnable();
+    // Additionally, it also chooses the first LED profile by default. Refer to the "profiles" array in main.c in
+    // annepro2-shine to see the order. Replace "i" with the index of your preferred profile. (i.e the RED profile is index 0)
+    annepro2LedSetProfile(14);
+
+    // Slower animation speed
+    annepro2LedNextAnimationSpeed();
+    // annepro2LedNextAnimationSpeed(); // even slower
+    // annepro2LedNextAnimationSpeed(); // slowest
 }
 
+layer_state_t layer_state_set_user(layer_state_t layer) {
+  switch(get_highest_layer(layer)) {
+    case _FN_LAYER:
+      annepro2LedSetForegroundColor(0x20, 0xFF, 0x4c);
+      // annepro2LedSetForegroundColor(0x60, 0xFF, 0x60);
+      // annepro2LedSetForegroundColor(0x00, 0xFF, 0x66);
+      // annepro2LedSetForegroundColor(0x20, 0xFF, 0x79);
+      break;
+    case _KEYPAD_LAYER:
+      annepro2LedSetForegroundColor(0x00, 0x00, 0xFF);  // blue
+      break;
+    default:
+      annepro2LedResetForegroundColor();  // Reset back to the current profile
+      break;
+  }
+  return layer;
+}
+
+// The function to handle the caps lock logic
+// It's called after the capslock changes state or after entering layers 1 and 2.
 bool led_update_user(led_t leds) {
   if (leds.caps_lock) {
+    // Set the caps-lock to red
     const annepro2Led_t color = {
         .p.red = 0xff,
         .p.green = 0x00,
@@ -150,15 +181,20 @@ bool led_update_user(led_t leds) {
     };
 
     annepro2LedMaskSetKey(2, 0, color);
-
+    /* NOTE: Instead of colouring the capslock only, you can change the whole
+       keyboard with annepro2LedSetForegroundColor */
   } else {
-    const annepro2Led_t color = {
-        .p.red = 0xff,
-        .p.green = 0x00,
-        .p.blue = 0x00,
-        .p.alpha = 0x00
-    };
-    annepro2LedMaskSetKey(2, 0, color);
+    // Reset the capslock if there is no layer active
+    if(!layer_state_is(_FN_LAYER) && !layer_state_is(_KEYPAD_LAYER)) {
+      const annepro2Led_t color = {
+          .p.red = 0xff,
+          .p.green = 0x00,
+          .p.blue = 0x00,
+          .p.alpha = 0x00
+      };
+      annepro2LedMaskSetKey(2, 0, color);
+    }
   }
+
   return true;
 }
