@@ -54,11 +54,11 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /*
   * Layer _KEYPAD_LAYER
   * ,-----------------------------------------------------------------------------------------.
-  * |     |     |     |     |     |  %  |  =  |  /  |  *  |     |     |     |     |    Bksp   |
+  * |     |     |     |     |     |  %  |  =  |  /  |  *  |     |     |     |     |           |
   * |-----------------------------------------------------------------------------------------+
   * | Tab    |     |     |     |     |  ,  |  7  |  8  |  9  |  -  |     |     |     |        |
   * |-----------------------------------------------------------------------------------------+
-  * | Esc     |     |     |     |     |Enter|  4  |  5  |  6  |  +  |     |     |    Enter    |
+  * | Esc     |     |     |     |     |Enter|  4  |  5  |  6  |  +  |     |     |   NumLock   |
   * |-----------------------------------------------------------------------------------------+
   * | Shift      |     |     |     |     | Bksp|  1  |  2  |  3  |  .  |     |    Shift       |
   * |-----------------------------------------------------------------------------------------+
@@ -78,9 +78,9 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * \-----------------------------------------------------------------------------------------/
   */
   [_KEYPAD_LAYER] = KEYMAP( /* Base */
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PERCENT, KC_KP_EQUAL, KC_KP_SLASH, KC_KP_ASTERISK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PERCENT, KC_KP_EQUAL, KC_KP_SLASH, KC_KP_ASTERISK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_KP_COMMA, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_MINUS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    LT(_ARROW_LAYER, KC_ESC), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_KP_ENTER, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_PLUS, XXXXXXX, XXXXXXX, KC_KP_ENTER,
+    LT(_ARROW_LAYER, KC_ESC), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_KP_ENTER, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_PLUS, XXXXXXX, XXXXXXX, KC_NUM_LOCK,
     KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, XXXXXXX, KC_RSFT,
     KC_LCTL, KC_LGUI, KC_LAPO,      KC_KP_0,             KC_RAPC, MO(_FN_LAYER), KC_APPLICATION, KC_RCTL
   ),
