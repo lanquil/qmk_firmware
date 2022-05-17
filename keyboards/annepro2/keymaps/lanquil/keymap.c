@@ -29,7 +29,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |-----------------------------------------------------------------------------------------+
   * | Shift      |  z  |  x  |  c  |  v  |  b  |  n  |  m  |  ,  |  .  |  /  |    Shift       |
   * |-----------------------------------------------------------------------------------------+
-  * | Ctrl  | L_GUI | Alt ( |               Space             | Alt ) |  Fn1  | Menu  | Ctrl  |
+  * | Ctrl  | L_GUI | Alt ( |               Space             | Alt ) |  Fn1  | R_GUI | Ctrl  |
   * \-----------------------------------------------------------------------------------------/
   * Layer HOLD in _BASE_LAYER
   * ,-----------------------------------------------------------------------------------------.
@@ -49,7 +49,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
     LT(_ARROW_LAYER, KC_ESC), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
-    KC_LCTL, KC_LGUI, KC_LAPO,      KC_SPC,             KC_RAPC, MO(_FN_LAYER), KC_APPLICATION, KC_RCTL
+    KC_LCTL, KC_LGUI, KC_LAPO,      KC_SPC,             KC_RAPC, MO(_FN_LAYER), KC_RGUI, KC_RCTL
   ),
   /*
   * Layer _KEYPAD_LAYER
@@ -62,7 +62,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |-----------------------------------------------------------------------------------------+
   * | Shift      |     |     |     |     | Bksp|  1  |  2  |  3  |  .  |     |    Shift       |
   * |-----------------------------------------------------------------------------------------+
-  * | Ctrl  | L_GUI | Alt ( |                 0               | Alt ) |  Fn1  | Menu  | Ctrl  |
+  * | Ctrl  | L_GUI | Alt ( |                 0               | Alt ) |  Fn1  | R_GUI | Ctrl  |
   * \-----------------------------------------------------------------------------------------/
   * Layer HOLD in _KEYPAD_LAYER
   * ,-----------------------------------------------------------------------------------------.
@@ -82,15 +82,15 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_KP_COMMA, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_MINUS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     LT(_ARROW_LAYER, KC_ESC), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_KP_ENTER, KC_KP_4, KC_KP_5, KC_KP_6, KC_KP_PLUS, XXXXXXX, XXXXXXX, KC_NUMLOCK,
     KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSPC, KC_KP_1, KC_KP_2, KC_KP_3, KC_KP_DOT, XXXXXXX, KC_RSFT,
-    KC_LCTL, KC_LGUI, KC_LAPO,      KC_KP_0,             KC_RAPC, MO(_FN_LAYER), KC_APPLICATION, KC_RCTL
+    KC_LCTL, KC_LGUI, KC_LAPO,      KC_KP_0,             KC_RAPC, MO(_FN_LAYER), KC_RGUI, KC_RCTL
   ),
   /* Layer _ARROW_LAYER
   * ,-----------------------------------------------------------------------------------------.
-  * |     |     |     |     |     |     |     |     |     |     |     |     |     |           |
+  * |     | Bt1 | Bt2 | Bt3 |BtUnp| USB |VolDw|VolUp| Mute|L_Int|L_Frq|L_Off| L_On|           |
   * |-----------------------------------------------------------------------------------------+
-  * |        |     |     |     |     |     |     |     |     |     |     | Home| End |        |
+  * |        |     | Up  |     |     |     |     |     |     |     |     | Home| End |        |
   * |-----------------------------------------------------------------------------------------+
-  * |         |     |     |     |     |     | Left| Down| Up  |Right| PgU | PgD |             |
+  * |         | Left| Down|Right|     |     | Left| Down| Up  |Right| PgU | PgD |             |
   * |-----------------------------------------------------------------------------------------+
   * |            |     |     |     |     |     |     |     |     | Ins | Del |                |
   * |-----------------------------------------------------------------------------------------+
@@ -98,31 +98,31 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * \-----------------------------------------------------------------------------------------/
   */
   [_ARROW_LAYER] = KEYMAP( /* Base */
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END, _______,
-    _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGUP, KC_PGDN, _______,
+    _______, KC_AP2_BT1, KC_AP2_BT2, KC_AP2_BT3, KC_AP2_BT_UNPAIR, KC_AP2_USB, KC_VOLD, KC_VOLU, KC_MUTE, KC_AP_LED_NEXT_INTENSITY, KC_AP_LED_SPEED, KC_AP_LED_OFF, KC_AP_LED_ON, _______,
+    _______, _______, KC_UP, _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_END, _______,
+    _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGUP, KC_PGDN, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_INSERT, KC_DELETE, _______,
     _______, _______, _______,      _______,              _______, _______, _______, _______
   ),
   /* Layer _FN_LAYER
   * ,-----------------------------------------------------------------------------------------.
-  * |Sleep| F1  | F2  | F3  | F4  | F5  | F6  | F7  | F8  | F9  | F10 | F11 | F12 |    Del    |
+  * | Esc | F1  | F2  | F3  | F4  | F5  | F6  | F7  | F8  | F9  | F10 | F11 | F12 | BlockFn_L |
   * |-----------------------------------------------------------------------------------------+
-  * | MsBut3 |     | MsU |MsWhl|MsWUp|     |L_Int|L_Frq| L_On|L_Off|  PS | Home| End |Keypad_L|
+  * | MsBut3 |     | MsU |MsWhl|MsWUp|     |     |     |     |     |  PS | Home| End |Keypad_L|
   * |-----------------------------------------------------------------------------------------+
   * | CapsLock| MsL | MsD | MsR |MsWDw|     | Left| Down| Up  |Right| PgU | PgD | Base_Layer  |
   * |-----------------------------------------------------------------------------------------+
-  * | MsButton1  |BtUnp| Bt1 | Bt2 | Bt3 | USB |VolUp|VolDw| Mute| Ins | Del |     Shift      |
+  * | MsButton1  |Sleep|     |     |     |     |     |     |     | Ins | Del |     Shift      |
   * |-----------------------------------------------------------------------------------------+
-  * | Ctrl  |       |  Alt  |       MsAccel1                  |R_Macro|       | Fn_L  | Macro |
+  * | Ctrl  |       |  Alt  |       MsAccel1                  |R_Macro|       |       | Macro |
   * \-----------------------------------------------------------------------------------------/
   */
   [_FN_LAYER] = KEYMAP( /* Base */
-    KC_SYSTEM_SLEEP, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DELETE,
-    KC_MS_BTN3, XXXXXXX, KC_MS_UP, KC_MS_BTN2, KC_MS_WH_UP, XXXXXXX, KC_AP_LED_NEXT_INTENSITY, KC_AP_LED_SPEED, KC_AP_LED_ON, KC_AP_LED_OFF, KC_PSCR, KC_HOME, KC_END, DF(_KEYPAD_LAYER),
+    KC_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, DF(_FN_LAYER),
+    KC_MS_BTN3, XXXXXXX, KC_MS_UP, KC_MS_BTN2, KC_MS_WH_UP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_HOME, KC_END, DF(_KEYPAD_LAYER),
     KC_CAPS, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, KC_MS_WH_DOWN, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PGUP, KC_PGDN, DF(_BASE_LAYER),
-    KC_MS_BTN1, KC_AP2_BT_UNPAIR, KC_AP2_BT1, KC_AP2_BT2, KC_AP2_BT3, KC_AP2_USB, KC_VOLU, KC_VOLD, KC_MUTE, KC_INSERT, KC_DELETE, KC_RSFT,
-    KC_LCTL, _______, KC_LALT,      KC_MS_ACCEL1,             DYN_REC_START1, _______, DF(_FN_LAYER), DYN_MACRO_PLAY1
+    KC_MS_BTN1, KC_SYSTEM_SLEEP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_INSERT, KC_DELETE, KC_RSFT,
+    KC_LCTL, _______, KC_LALT,      KC_MS_ACCEL1,             DYN_REC_START1, _______, _______, DYN_MACRO_PLAY1
   ),
 };
 
