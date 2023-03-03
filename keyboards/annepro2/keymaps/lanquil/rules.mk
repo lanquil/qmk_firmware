@@ -1,8 +1,6 @@
-# https://github.com/qmk/qmk_firmware/blob/master/docs/feature_mouse_keys.md
-MOUSEKEY_ENABLE = yes
+MOUSEKEY_ENABLE = yes # https://github.com/qmk/qmk_firmware/blob/master/docs/feature_mouse_keys.md
 
-# https://github.com/qmk/qmk_firmware/blob/master/docs/feature_dynamic_macros.md
-DYNAMIC_MACRO_ENABLE = yes
+DYNAMIC_MACRO_ENABLE = yes # https://github.com/qmk/qmk_firmware/blob/master/docs/feature_dynamic_macros.md
 
 # NKRO_ENABLE = no
 # TAP_DANCE_ENABLE = yes
