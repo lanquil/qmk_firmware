@@ -133,8 +133,8 @@ layer_state_t layer_state_set_user(layer_state_t layer) {
         // annepro2LedSetForegroundColor(0x00, 0xff, 0x66);
         // annepro2LedSetForegroundColor(0x20, 0xff, 0x79);
         break;
-    case _KEYPAD_LAYER: // FIXME: colour keypad keys yellow
-        annepro2LedSetForegroundColor(0x00, 0x00, 0xff);  // blue
+    case _KEYPAD_LAYER: // FIXME: persistent
+        annepro2LedSetForegroundColor(0x00, 0xf0, 0xf0);
         break;
     default:
         annepro2LedResetForegroundColor();  // Reset back to the current profile
@@ -147,18 +147,19 @@ layer_state_t layer_state_set_user(layer_state_t layer) {
 // It's called after the capslock changes state or after entering layers 1 and 2.
 bool led_update_user(led_t leds) {
   if (leds.caps_lock) {
-    // Set the caps-lock to red // FIXME: all red, capslock blue
+    // Set the Shifts to red
     const annepro2Led_t color = {
         .p.red = 0xff,
         .p.green = 0x00,
         .p.blue = 0x00,
         .p.alpha = 0xff
     };
-    annepro2LedMaskSetKey(2, 0, color);
+    annepro2LedMaskSetKey(3, 0, color); // L Shift
+    annepro2LedMaskSetKey(3, 12, color); // R Shift
     /* NOTE: Instead of colouring the capslock only, you can change the whole
        keyboard with annepro2LedSetForegroundColor */
   } else {
-    // Reset the capslock if there is no layer active
+    // Reset the colors if there is no layer active
     if(!layer_state_is(_FN_LAYER) && !layer_state_is(_KEYPAD_LAYER)) {
       const annepro2Led_t color = {
         .p.red = 0xff,
@@ -166,18 +167,9 @@ bool led_update_user(led_t leds) {
         .p.blue = 0x00,
         .p.alpha = 0x00
       };
-      annepro2LedMaskSetKey(2, 0, color);
+      annepro2LedMaskSetKey(3, 0, color);
+      annepro2LedMaskSetKey(3, 12, color);
     }
   }
   return true;
-}
-
-// Signal Caps Word state
-// https://github.com/qmk/qmk_firmware/blob/master/docs/feature_caps_word.md#representing-caps-word-state-idrepresenting-caps-word-state
-void caps_word_set_user(bool active) {
-    if (active) {
-        annepro2LedSetForegroundColor(0xff, 0x00, 0x00); // red
-    } else {
-        annepro2LedResetForegroundColor();
-    }
 }
